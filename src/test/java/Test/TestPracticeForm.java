@@ -8,9 +8,10 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static java.lang.Thread.sleep;
 
 
-    public class TestPracticeForm {
+public class TestPracticeForm {
 
         @BeforeAll
         static void beforeAll() {
@@ -22,7 +23,7 @@ import static com.codeborne.selenide.Selenide.open;
         }
 
         @Test
-        void fillFormTest() {
+        void fillFormTest() throws InterruptedException {
             open("/automation-practice-form");//Открываем нужный URL
             $(byText("Practice Form"));// Проверка что мы находимся на "Practice Form"
             $(".practice-form-wrapper").shouldHave(text("Student Registration Form")); //Доп. проверка формы "practice-form-wrapper" - убедиться что находимся на нужной странице
@@ -45,6 +46,16 @@ import static com.codeborne.selenide.Selenide.open;
             $("#subjectsInput").pressTab();
 
             $(by("for","hobbies-checkbox-1")).click();//Кликаем 1-ый Check box
+
+            $("#currentAddress").setValue("Belinskogo 13");
+            $("#state").click();
+            $(byText("Haryana")).click();
+            $("#city").click();
+            $(byText("Karnal")).click();
+            $("#submit").click();
+            $("html").shouldHave(text("Thanks for submitting the form"));
+            sleep(4000);
+            $("#closeLargeModal").click();
 
 
         }
