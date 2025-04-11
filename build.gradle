@@ -16,5 +16,4 @@ dependencies { // Зависимости
 
 test {
     useJUnitPlatform()
-
 }
