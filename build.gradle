@@ -1,17 +1,18 @@
-plugins { // плагин - расширение текущих функц возможностей (Добавляем язык)
+plugins {
     id 'java-library'
 }
 
-repositories { //Хранилище
-    mavenCentral() // Сайт - где лежат все библиотеки
+repositories {
+    mavenCentral()
 }
 
-dependencies { // Зависимости
-    testImplementation( // Реализация
-            "com.codeborne:selenide:6.19.1", // Версия селенида - актуальная
-            "org.junit.jupiter:junit-jupiter:5.10.0",//джи юнит
-            'org.slf4j:slf4j-simple:2.0.7'
+dependencies {
+    testImplementation(
+            "com.codeborne:selenide:7.7.3",
+            "org.junit.jupiter:junit-jupiter:5.12.1",
+            'org.slf4j:slf4j-simple:2.0.17'
     )
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {
