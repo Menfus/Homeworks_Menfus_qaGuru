@@ -1,82 +1,114 @@
 package tests;
 
 
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
+
 import static com.codeborne.selenide.Selenide.$;
 
 
-public class PracticeFormTest extends TestBase {
-    RegistrationPage registrationPage = new RegistrationPage();
+    public class PracticeFormTest extends TestBase {
+        RegistrationPage registrationPage = new RegistrationPage();
+
+            //Создаем рандомные данные через библиотеку Faker
+            Faker faker = new Faker();
+
+            String firstName = faker.name().firstName();
+            String lastName = faker.name().lastName();
+            //String gender = faker.options().option("Male", "Female", "Other");
+            String gender = "Male";
+            String userEmail = faker.internet().emailAddress();
+            String userNumber = faker.number().digits(10);
+            String birthDay = String.format("%02d", faker.number().numberBetween(1, 28));
+            String birthMonth = faker.options().option(
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December");
+            String birthYear = String.valueOf(faker.number().numberBetween(1950, 2000));
+
+            String subject = faker.options().option(
+                    "Chemistry", "Maths", "Physics", "Arts", "English",
+                    "Biology", "History", "Economics", "Computer Science", "Commerce", "Accounting");
+            String hobby = "Sport";
+            //String hobby = faker.options().option("Sport", "Reading", "Music");
+            String streetAddress = faker.address().streetAddress();
+            String state = "Haryana";
+            String city = "Karnal";
 
 
-    @Test
-    void successfulRegistrationTest() {
-        registrationPage.openPage()
-                .setFirstName("Kazeshini")
-                .setLastName("Menfus")
-                .setEmail("Menfus369@gmail.com")
-                .setGender()
-                .setUserNumber("9091015433")
-                .setDateOfBirth("28", "December", "2001")
-                .setSubjects("M")
-                .setSubjectP("P")
-                .setHobby()
-                .setPicture("testIMG.png")
-                .setAdress("Belinskogo 13")
-                .setState()
-                .setCity()
-                .getSubmit();
 
-       registrationPage.checkResult("Student Name", "Kazeshini Menfus")
-                .checkResult("Student Email", "Menfus369@gmail.com")
-                .checkResult("Gender", "Male")
-                .checkResult("Mobile", "9091015433")
-                .checkResult("Date of Birth", "28 December,2001")
-                .checkResult("Subjects", "Maths, Physics")
-                .checkResult("Hobbies", "Sport")
-                .checkResult("Picture", "testIMG.png")
-                .checkResult("Address", "Belinskogo 13")
-                .checkResult("State and City", "Haryana Karnal");
-    }
+        @Test
+        void successfulRegistrationTest() {
+            registrationPage.openPage()
+                    .setFirstName(firstName)
+                    .setLastName(lastName)
+                    .setEmail(userEmail)
+                    .setUserNumber(userNumber)
+                    .setGender(gender)
+                    .setDateOfBirth(birthDay, birthMonth, birthYear)
+                    .setSubjects(subject)
+                    .setHobby(hobby)
+                    .setPicture("testIMG.png")
+                    .setAdress(streetAddress)
+                    .setState(state)
+                    .setCity(city)
+                    .getSubmit();
 
-    //Кейс - проверка минимального количества данных для отправки Формы
-    @Test void minDataRegistrationTest() {
-        registrationPage.openPage()
-                .setFirstName("Putin")
-                .setLastName("Vladimir")
-                .setEmail("RF369@gmail.com")
-                .setGender()
-                .setUserNumber("0000000001")
-                .getSubmit();
 
-        registrationPage.checkResult("Student Name", "Putin Vladimir")
-                .checkResult("Student Email", "RF369@gmail.com")
-                .checkResult("Gender", "Male")
-                .checkResult("Mobile", "0000000001");
-    }
+            registrationPage
+                    .checkResult("Student Name", firstName + " " + lastName)
+                    .checkResult("Student Email", userEmail)
+                    .checkResult("Mobile", userNumber)
+                    .checkResult("Date of Birth", birthDay + " " + birthMonth + "," + birthYear)
+                    .checkResult("Subjects", subject)
+                    .checkResult("Picture", "testIMG.png")
+                    .checkResult("Address", streetAddress)
+                    .checkResult("State and City", state + " " + city)
+                    .checkResult("Hobbies", hobby)
+                    .checkResult("Gender", gender);
+        }
+
+
+
+        //Кейс - проверка минимального количества данных для отправки Формы
+        @Test
+        void minDataRegistrationTest() {
+            registrationPage.openPage()
+                    .setFirstName("Putin")
+                    .setLastName("Vladimir")
+                    .setEmail("RF369@gmail.com")
+                    .setGender(gender)
+                    .setUserNumber("0000000001")
+                    .getSubmit();
+
+            registrationPage.checkResult("Student Name", "Putin Vladimir")
+                    .checkResult("Student Email", "RF369@gmail.com")
+                    .checkResult("Gender", "Male")
+                    .checkResult("Mobile", "0000000001");
+        }
+
         //Негативный кейс на валидацию Input-ов
-        @Test void negativeRegistrationTest() {
+        @Test
+        void negativeRegistrationTest() {
             registrationPage.openPage()
                     .setFirstName("!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *")
                     .setLastName("!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *")
                     .setEmail("Мыло@mail.com")
-                    .setGender()
+                    .setGender(gender)
                     .setUserNumber("!@#$09%%^&_+= *")
                     .setDateOfBirth("10", "February", "2001")
                     .setSubjects("M")
                     .setSubjectP("P")
-                    .setHobby()
+                    .setHobby(hobby)
                     .setPicture("testIMG.png")
                     .setAdress("!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= * 13")
-                    .setState()
-                    .setCity()
+                    .setState(state)
+                    .setCity(city)
                     .getSubmit();
         }
     }
+
 
 
 

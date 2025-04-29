@@ -59,7 +59,7 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage setGender() {
+    public RegistrationPage setGender(String gender) {
         genderWrapper.click();
 
         return this;
@@ -93,7 +93,7 @@ public class RegistrationPage {
     }
 
 
-    public RegistrationPage setHobby() {
+    public RegistrationPage setHobby(String value) {
         hobbyCheckBox.click();
         return this;
     }
@@ -110,13 +110,13 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage setState() {
+    public RegistrationPage setState(String state) {
         stateInput.click();
         stateHaryana.click();
         return this;
     }
 
-    public RegistrationPage setCity() {
+    public RegistrationPage setCity(String value) {
         cityInput.click();
         cityKarnal.click();
         return this;
@@ -138,4 +138,7 @@ public class RegistrationPage {
 
         return this;
     }
+
+
 }
+
