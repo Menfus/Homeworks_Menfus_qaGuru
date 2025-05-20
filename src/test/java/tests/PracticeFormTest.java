@@ -16,9 +16,39 @@ import static com.codeborne.selenide.Selectors.by;
 import static com.codeborne.selenide.Selenide.$;
 import static io.qameta.allure.Allure.step;
 
+<<<<<<< HEAD
+@Tag("simplee")
+    public class PracticeFormTest extends TestBase {
+    RegistrationPage registrationPage = new RegistrationPage();
+
+    //Создаем рандомные данные через библиотеку Faker
+    Faker faker = new Faker();
+
+    String firstName = faker.name().firstName();
+    String lastName = faker.name().lastName();
+    //String gender = faker.options().option("Male", "Female", "Other");
+    String gender = "Male";
+    String userEmail = faker.internet().emailAddress();
+    String userNumber = faker.number().digits(10);
+    String birthDay = String.format("%02d", faker.number().numberBetween(1, 28));
+    String birthMonth = faker.options().option(
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December");
+    String birthYear = String.valueOf(faker.number().numberBetween(1950, 2000));
+
+    String subject = faker.options().option(
+            "Chemistry", "Maths", "Physics", "Arts", "English",
+            "Biology", "History", "Economics", "Computer Science", "Commerce", "Accounting");
+    String hobby = "Sport";
+    //String hobby = faker.options().option("Sport", "Reading", "Music");
+    String streetAddress = faker.address().streetAddress();
+    String state = "Haryana";
+    String city = "Karnal";
+=======
 
 
     
+>>>>>>> cc80804fd55e0f8c0979b25a499403830ab4344b
 
     @AfterEach
     void addAttachments() {
@@ -28,7 +58,6 @@ import static io.qameta.allure.Allure.step;
         Attach.addVideo();
     }
 
-    @Tag("simple")
     @Feature("Форма регистрации")
     @Story("Успешная отправка формы")
     @Owner("Menfus")
@@ -66,8 +95,11 @@ import static io.qameta.allure.Allure.step;
                     text("alex@egorov.com"), text("1234567890"));
         });
     }
-
 }
+
+
+
+
 
 
 
