@@ -44,13 +44,6 @@ import static io.qameta.allure.Allure.step;
     String state = "Haryana";
     String city = "Karnal";
 
-    @AfterEach
-    void addAttachments() {
-        Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
-        Attach.browserConsoleLogs();
-        Attach.addVideo();
-    }
 
     @Feature("Форма регистрации")
     @Story("Успешная отправка формы")
