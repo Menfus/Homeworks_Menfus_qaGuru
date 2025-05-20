@@ -16,7 +16,6 @@ import static com.codeborne.selenide.Selectors.by;
 import static com.codeborne.selenide.Selenide.$;
 import static io.qameta.allure.Allure.step;
 
-<<<<<<< HEAD
 @Tag("simplee")
     public class PracticeFormTest extends TestBase {
     RegistrationPage registrationPage = new RegistrationPage();
@@ -44,11 +43,6 @@ import static io.qameta.allure.Allure.step;
     String streetAddress = faker.address().streetAddress();
     String state = "Haryana";
     String city = "Karnal";
-=======
-
-
-    
->>>>>>> cc80804fd55e0f8c0979b25a499403830ab4344b
 
     @AfterEach
     void addAttachments() {
@@ -68,34 +62,39 @@ import static io.qameta.allure.Allure.step;
 
         step("Заполняем поля регистрационной формы", () -> {
 
-           $("#firstName").setValue("Alex");
-            $("#lastName").setValue("Egorov");
-            $("#userEmail").setValue("alex@egorov.com");
-            $("#genterWrapper").$(byText("Other")).click();
-            $("#userNumber").setValue("1234567890");
-            $("#dateOfBirthInput").click();
-            $(".react-datepicker__month-select").selectOption("July");
-            $(".react-datepicker__year-select").selectOption("2008");
-            $(".react-datepicker__day--030:not(.react-datepicker__day--outside-month)").click();
-            $("#subjectsInput").setValue("Math").pressEnter();
-            $("#hobbiesWrapper").$(byText("Sports")).click();
-            $("#uploadPicture").uploadFromClasspath("img/1.png");
-            $("#currentAddress").setValue("Some address 1");
-            $("#state").click();
-            $("#stateCity-wrapper").$(byText("NCR")).click();
-            $("#city").click();
-            $("#stateCity-wrapper").$(byText("Delhi")).click();
-            $("#submit").click();
+            registrationPage.openPage()
+                    .setFirstName(firstName)
+                    .setLastName(lastName)
+                    .setEmail(userEmail)
+                    .setUserNumber(userNumber)
+                    .setGender(gender)
+                    .setDateOfBirth(birthDay, birthMonth, birthYear)
+                    .setSubjects(subject)
+                    .setHobby(hobby)
+                    .setPicture("testIMG.png")
+                    .setAdress(streetAddress)
+                    .setState(state)
+                    .setCity(city)
+                    .getSubmit();
         });
         step("Проверяем отправленные значения в полях регистрационной формы", () -> {
 
-             $(".modal-dialog").should(appear);
-            $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-            $(".table-responsive").shouldHave(text("Alex"), text("Egorov"),
-                    text("alex@egorov.com"), text("1234567890"));
+            registrationPage
+                    .checkResult("Student Name", firstName + " " + lastName)
+                    .checkResult("Student Email", userEmail)
+                    .checkResult("Mobile", userNumber)
+                    .checkResult("Date of Birth", birthDay + " " + birthMonth + "," + birthYear)
+                    .checkResult("Subjects", subject)
+                    .checkResult("Picture", "testIMG.png")
+                    .checkResult("Address", streetAddress)
+                    .checkResult("State and City", state + " " + city)
+                    .checkResult("Hobbies", hobby)
+                    .checkResult("Gender", gender);
         });
     }
 }
+
+
 
 
 
