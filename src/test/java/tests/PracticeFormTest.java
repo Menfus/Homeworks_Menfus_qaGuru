@@ -2,115 +2,72 @@ package tests;
 
 
 import com.github.javafaker.Faker;
+import helpers.Attach;
+import io.qameta.allure.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pages.RegistrationPage;
+import pages.components.RegistrationPage;
+import org.junit.jupiter.api.Tag;
 
 
+import static com.codeborne.selenide.Selectors.by;
 import static com.codeborne.selenide.Selenide.$;
-
-
-    public class PracticeFormTest extends TestBase {
-        RegistrationPage registrationPage = new RegistrationPage();
-
-            //Создаем рандомные данные через библиотеку Faker
-            Faker faker = new Faker();
-
-            String firstName = faker.name().firstName();
-            String lastName = faker.name().lastName();
-            //String gender = faker.options().option("Male", "Female", "Other");
-            String gender = "Male";
-            String userEmail = faker.internet().emailAddress();
-            String userNumber = faker.number().digits(10);
-            String birthDay = String.format("%02d", faker.number().numberBetween(1, 28));
-            String birthMonth = faker.options().option(
-                    "January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December");
-            String birthYear = String.valueOf(faker.number().numberBetween(1950, 2000));
-
-            String subject = faker.options().option(
-                    "Chemistry", "Maths", "Physics", "Arts", "English",
-                    "Biology", "History", "Economics", "Computer Science", "Commerce", "Accounting");
-            String hobby = "Sport";
-            //String hobby = faker.options().option("Sport", "Reading", "Music");
-            String streetAddress = faker.address().streetAddress();
-            String state = "Haryana";
-            String city = "Karnal";
+import static io.qameta.allure.Allure.step;
 
 
 
-        @Test
-        void successfulRegistrationTest() {
-            registrationPage.openPage()
-                    .setFirstName(firstName)
-                    .setLastName(lastName)
-                    .setEmail(userEmail)
-                    .setUserNumber(userNumber)
-                    .setGender(gender)
-                    .setDateOfBirth(birthDay, birthMonth, birthYear)
-                    .setSubjects(subject)
-                    .setHobby(hobby)
-                    .setPicture("testIMG.png")
-                    .setAdress(streetAddress)
-                    .setState(state)
-                    .setCity(city)
-                    .getSubmit();
+    
 
-
-            registrationPage
-                    .checkResult("Student Name", firstName + " " + lastName)
-                    .checkResult("Student Email", userEmail)
-                    .checkResult("Mobile", userNumber)
-                    .checkResult("Date of Birth", birthDay + " " + birthMonth + "," + birthYear)
-                    .checkResult("Subjects", subject)
-                    .checkResult("Picture", "testIMG.png")
-                    .checkResult("Address", streetAddress)
-                    .checkResult("State and City", state + " " + city)
-                    .checkResult("Hobbies", hobby)
-                    .checkResult("Gender", gender);
-        }
-
-
-
-        //Кейс - проверка минимального количества данных для отправки Формы
-        @Test
-        void minDataRegistrationTest() {
-            registrationPage.openPage()
-                    .setFirstName("Putin")
-                    .setLastName("Vladimir")
-                    .setEmail("RF369@gmail.com")
-                    .setGender(gender)
-                    .setUserNumber("0000000001")
-                    .getSubmit();
-
-            registrationPage.checkResult("Student Name", "Putin Vladimir")
-                    .checkResult("Student Email", "RF369@gmail.com")
-                    .checkResult("Gender", "Male")
-                    .checkResult("Mobile", "0000000001");
-        }
-
-        //Негативный кейс на валидацию Input-ов
-        @Test
-        void negativeRegistrationTest() {
-            registrationPage.openPage()
-                    .setFirstName("!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *")
-                    .setLastName("!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *")
-                    .setEmail("Мыло@mail.com")
-                    .setGender(gender)
-                    .setUserNumber("!@#$09%%^&_+= *")
-                    .setDateOfBirth("10", "February", "2001")
-                    .setSubjects("M")
-                    .setSubjectP("P")
-                    .setHobby(hobby)
-                    .setPicture("testIMG.png")
-                    .setAdress("!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= *!@#$09%%^&_+= * 13")
-                    .setState(state)
-                    .setCity(city)
-                    .getSubmit();
-        }
+    @AfterEach
+    void addAttachments() {
+        Attach.screenshotAs("Last screenshot");
+        Attach.pageSource();
+        Attach.browserConsoleLogs();
+        Attach.addVideo();
     }
 
+    @Tag("simple")
+    @Feature("Форма регистрации")
+    @Story("Успешная отправка формы")
+    @Owner("Menfus")
+    @Severity(SeverityLevel.BLOCKER)
+    @DisplayName("Проверка Формы регистрации с помощью Lambda шагов")
+    @Test
+    void successfulRegistrationTest() {
 
+        step("Заполняем поля регистрационной формы", () -> {
 
+           $("#firstName").setValue("Alex");
+            $("#lastName").setValue("Egorov");
+            $("#userEmail").setValue("alex@egorov.com");
+            $("#genterWrapper").$(byText("Other")).click();
+            $("#userNumber").setValue("1234567890");
+            $("#dateOfBirthInput").click();
+            $(".react-datepicker__month-select").selectOption("July");
+            $(".react-datepicker__year-select").selectOption("2008");
+            $(".react-datepicker__day--030:not(.react-datepicker__day--outside-month)").click();
+            $("#subjectsInput").setValue("Math").pressEnter();
+            $("#hobbiesWrapper").$(byText("Sports")).click();
+            $("#uploadPicture").uploadFromClasspath("img/1.png");
+            $("#currentAddress").setValue("Some address 1");
+            $("#state").click();
+            $("#stateCity-wrapper").$(byText("NCR")).click();
+            $("#city").click();
+            $("#stateCity-wrapper").$(byText("Delhi")).click();
+            $("#submit").click();
+        });
+        step("Проверяем отправленные значения в полях регистрационной формы", () -> {
+
+             $(".modal-dialog").should(appear);
+            $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
+            $(".table-responsive").shouldHave(text("Alex"), text("Egorov"),
+                    text("alex@egorov.com"), text("1234567890"));
+        });
+    }
+
+}
 
 
 
