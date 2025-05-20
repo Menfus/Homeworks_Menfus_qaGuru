@@ -9,7 +9,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.Map;
 
 import static com.codeborne.selenide.Configuration.baseUrl;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class TestBase {
 
@@ -17,7 +16,7 @@ public class TestBase {
     static void beforeAll() {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "normal";
-        // Configuration.holdBrowserOpen = true;
+        //Configuration.holdBrowserOpen = true;
         Configuration.timeout = 10000;
 
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
@@ -31,8 +30,6 @@ public class TestBase {
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
-
     }
 
 }
-
