@@ -16,8 +16,7 @@ import static com.codeborne.selenide.Selectors.by;
 import static com.codeborne.selenide.Selenide.$;
 import static io.qameta.allure.Allure.step;
 
-
-
+@Tag("simple")
     public class PracticeFormTest extends TestBase {
     RegistrationPage registrationPage = new RegistrationPage();
 
@@ -53,7 +52,6 @@ import static io.qameta.allure.Allure.step;
         Attach.addVideo();
     }
 
-    @Tag("simple")
     @Feature("Форма регистрации")
     @Story("Успешная отправка формы")
     @Owner("Menfus")
@@ -95,7 +93,8 @@ import static io.qameta.allure.Allure.step;
         });
     }
 
-}
+
+
 
 
 
