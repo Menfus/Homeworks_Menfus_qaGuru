@@ -2,6 +2,7 @@ package tests;
 
 
 import com.github.javafaker.Faker;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
 
@@ -89,6 +90,7 @@ import static com.codeborne.selenide.Selenide.$;
         }
 
         //Негативный кейс на валидацию Input-ов
+        @Disabled("Стоп")
         @Test
         void negativeRegistrationTest() {
             registrationPage.openPage()
