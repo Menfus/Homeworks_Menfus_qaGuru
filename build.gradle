@@ -46,13 +46,9 @@ tasks.withType(Test).configureEach {
 
 task simple_test(type: Test) {
     useJUnitPlatform {
-        includeTags("simple")
+        includeTags("simplee")
     }
 }
-task negative_test(type: Test) {
-    useJUnitPlatform {
-        includeTags("simple")
-    }
-}
+
 
 

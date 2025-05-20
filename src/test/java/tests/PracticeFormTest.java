@@ -16,7 +16,7 @@ import static com.codeborne.selenide.Selectors.by;
 import static com.codeborne.selenide.Selenide.$;
 import static io.qameta.allure.Allure.step;
 
-@Tag("simple")
+@Tag("simplee")
     public class PracticeFormTest extends TestBase {
     RegistrationPage registrationPage = new RegistrationPage();
 
@@ -92,6 +92,7 @@ import static io.qameta.allure.Allure.step;
                     .checkResult("Gender", gender);
         });
     }
+}
 
 
 
