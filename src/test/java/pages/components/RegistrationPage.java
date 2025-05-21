@@ -17,7 +17,7 @@ public class RegistrationPage {
             calendarInput = $("#dateOfBirthInput"),
             subjectsInput = $("#subjectsInput"),
             subjectInputP = $("#react-select-2-option-0"),
-            hobbyCheckBox = $(by("for", "hobbies-checkbox-1")),
+            hobbyCheckBox = $("label[for=hobbies-checkbox-1]"),
             pictureUpload = $("#uploadPicture"),
             adressInput = $("#currentAddress"),
             stateInput = $("#state"),
@@ -39,6 +39,7 @@ public class RegistrationPage {
 
         return this;
     }
+
 
     public RegistrationPage setFirstName(String value) {
         firstNameInput.setValue(value);
@@ -137,6 +138,10 @@ public class RegistrationPage {
 
         return this;
     }
+
+
+}
+
 
 
 }
