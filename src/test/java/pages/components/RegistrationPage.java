@@ -21,9 +21,9 @@ public class RegistrationPage {
             pictureUpload = $("#uploadPicture"),
             adressInput = $("#currentAddress"),
             stateInput = $("#state"),
-            stateHaryana = $(byText("Haryana")),
+            stateHaryana = $(byText("NCR")),
             cityInput = $("#city"),
-            cityKarnal = $(byText("Karnal")),
+            cityKarnal = $(byText("Delhi")),
             sumbitButton = $("#submit"),
             closeButton = $("#closeLargeModal");
 

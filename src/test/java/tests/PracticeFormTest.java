@@ -41,8 +41,8 @@ import static io.qameta.allure.Allure.step;
     String hobby = "Sport";
     //String hobby = faker.options().option("Sport", "Reading", "Music");
     String streetAddress = faker.address().streetAddress();
-    String state = "Haryana";
-    String city = "Karnal";
+    String state = "NCR";
+    String city = "Delhi";
 
 
     @Feature("Форма регистрации")
