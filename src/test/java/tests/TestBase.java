@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+
 import java.util.Map;
 
 import static com.codeborne.selenide.Configuration.baseUrl;
@@ -22,10 +23,7 @@ public class TestBase {
         String browserVersion = System.getProperty("browserVersion", "127.0");
         String screenResolution = System.getProperty("screenResolution", "1920x1080");
 
-        WebDriverManager.chromedriver()
-                .clearDriverCache()
-                .clearResolutionCache()
-                .setup();
+
 
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = screenResolution;
@@ -33,8 +31,7 @@ public class TestBase {
         Configuration.browserVersion = browserVersion;
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 10000;
-        Configuration.remote = String.format("https://user1:1234@%s/wd/hub",
-                selenoidHost);
+        Configuration.remote = String.format("https://user1:1234@%s/wd/hub",selenoidHost);
 
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
