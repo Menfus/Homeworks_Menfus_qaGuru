@@ -82,7 +82,7 @@ import static io.qameta.allure.Allure.step;
                     .checkResult("Address", streetAddress)
                     .checkResult("State and City", state + " " + city)
                     .checkResult("Hobbies", hobby)
-                    .checkResult("Gender", gender);
+                    .checkResult("Gender", gender); //1
         });
     }
 }
