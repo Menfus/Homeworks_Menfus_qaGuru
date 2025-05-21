@@ -36,6 +36,7 @@ public class RegistrationPage {
         $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
+        $("#state").scrollIntoView(true).click();
 
         return this;
     }
