@@ -24,9 +24,10 @@ public class TestBase {
         String screenResolution = System.getProperty("screenResolution", "1920x1080");
 
 
-
+        Configuration.browser = System.getProperty("browser", "chrome");
+        Configuration.browserVersion = System.getProperty("browser.version", "128.0");
+        Configuration.browserSize = System.getProperty("browser.size", "1920x1080");
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = screenResolution;
         Configuration.browser = browser;
         Configuration.browserVersion = browserVersion;
         Configuration.pageLoadStrategy = "eager";
@@ -42,6 +43,7 @@ public class TestBase {
         Configuration.browserCapabilities = capabilities;
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+
     }
 
     @AfterEach

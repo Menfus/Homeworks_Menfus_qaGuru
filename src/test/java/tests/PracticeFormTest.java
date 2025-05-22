@@ -4,12 +4,8 @@ package tests;
 import com.github.javafaker.Faker;
 import helpers.Attach;
 import io.qameta.allure.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import pages.components.RegistrationPage;
-import org.junit.jupiter.api.Tag;
 
 
 import static com.codeborne.selenide.Selectors.by;
@@ -43,6 +39,12 @@ import static io.qameta.allure.Allure.step;
     String streetAddress = faker.address().streetAddress();
     String state = "NCR";
     String city = "Delhi";
+
+    @Nested
+    @Tag("registration_form")
+    @DisplayName("Тесты формы регистрации студента")
+    class RegistrationPage extends TestBase {
+        private static final String SELENOID_URL = System.getProperty("selenoid.url");
 
 
     @Feature("Форма регистрации")
