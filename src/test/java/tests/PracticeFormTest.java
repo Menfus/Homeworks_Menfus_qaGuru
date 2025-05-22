@@ -14,6 +14,7 @@ import static io.qameta.allure.Allure.step;
 
 @Tag("simple")
     public class PracticeFormTest extends TestBase {
+    private static final String SELENOID_URL = System.getProperty("selenoid.url");
     RegistrationPage registrationPage = new RegistrationPage();
 
     //Создаем рандомные данные через библиотеку Faker
@@ -40,52 +41,49 @@ import static io.qameta.allure.Allure.step;
     String state = "NCR";
     String city = "Delhi";
 
-    @Nested
-    @Tag("registration_form")
-    @DisplayName("Тесты формы регистрации студента")
-    class RegistrationPage extends TestBase {
-        private static final String SELENOID_URL = System.getProperty("selenoid.url");
 
 
-    @Feature("Форма регистрации")
-    @Story("Успешная отправка формы")
-    @Owner("Menfus")
-    @Severity(SeverityLevel.BLOCKER)
-    @DisplayName("Проверка Формы регистрации с помощью Lambda шагов")
-    @Test
-    void successfulRegistrationTest() {
 
-        step("Заполняем поля регистрационной формы", () -> {
+        @Feature("Форма регистрации")
+        @Story("Успешная отправка формы")
+        @Owner("Menfus")
+        @Severity(SeverityLevel.BLOCKER)
+        @DisplayName("Проверка Формы регистрации с помощью Lambda шагов")
+        @Test
+        void successfulRegistrationTest() {
 
-            registrationPage.openPage()
-                    .setFirstName(firstName)
-                    .setLastName(lastName)
-                    .setEmail(userEmail)
-                    .setUserNumber(userNumber)
-                    .setGender(gender)
-                    .setDateOfBirth(birthDay, birthMonth, birthYear)
-                    .setSubjects(subject)
-                    .setHobby(hobby)
-                    .setPicture("testIMG.png")
-                    .setAdress(streetAddress)
-                    .setState(state)
-                    .setCity(city)
-                    .getSubmit();
-        });
-        step("Проверяем отправленные значения в полях регистрационной формы", () -> {
+            step("Заполняем поля регистрационной формы", () -> {
 
-            registrationPage
-                    .checkResult("Student Name", firstName + " " + lastName)
-                    .checkResult("Student Email", userEmail)
-                    .checkResult("Mobile", userNumber)
-                    .checkResult("Date of Birth", birthDay + " " + birthMonth + "," + birthYear)
-                    .checkResult("Subjects", subject)
-                    .checkResult("Picture", "testIMG.png")
-                    .checkResult("Address", streetAddress)
-                    .checkResult("State and City", state + " " + city)
-                    .checkResult("Hobbies", hobby)
-                    .checkResult("Gender", gender); //1
-        });
+                registrationPage.openPage()
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setEmail(userEmail)
+                        .setUserNumber(userNumber)
+                        .setGender(gender)
+                        .setDateOfBirth(birthDay, birthMonth, birthYear)
+                        .setSubjects(subject)
+                        .setHobby(hobby)
+                        .setPicture("testIMG.png")
+                        .setAdress(streetAddress)
+                        .setState(state)
+                        .setCity(city)
+                        .getSubmit();
+            });
+            step("Проверяем отправленные значения в полях регистрационной формы", () -> {
+
+                registrationPage
+                        .checkResult("Student Name", firstName + " " + lastName)
+                        .checkResult("Student Email", userEmail)
+                        .checkResult("Mobile", userNumber)
+                        .checkResult("Date of Birth", birthDay + " " + birthMonth + "," + birthYear)
+                        .checkResult("Subjects", subject)
+                        .checkResult("Picture", "testIMG.png")
+                        .checkResult("Address", streetAddress)
+                        .checkResult("State and City", state + " " + city)
+                        .checkResult("Hobbies", hobby)
+                        .checkResult("Gender", gender); //1
+            });
+        }
     }
 }
 
